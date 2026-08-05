@@ -3,7 +3,7 @@ FROM ${BUILD_FROM}
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-ARG SEERR_VERSION=3.4.1
+ARG SEERR_VERSION
 ARG SEERR_ARTIFACT_SHA256
 
 ENV \
