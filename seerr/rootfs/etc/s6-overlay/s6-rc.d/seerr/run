@@ -26,4 +26,4 @@ fi
 bashio::log.info 'Starting Seerr...'
 
 cd /opt || bashio::exit.nok 'Could not change directory to /opt'
-exec yarn start
+exec pnpm start
