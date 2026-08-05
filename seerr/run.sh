@@ -1,21 +1,17 @@
 #!/usr/bin/with-contenv bashio
-# ^ Standard Home Assistant S6 overlay bash declaration
+set -Eeuo pipefail
 
-# Bypass strict Corepack routing errors
-export COREPACK_ENABLE_STRICT=0
-export COREPACK_ENABLE_DOWNLOADS=0
-
-echo "Installing node dependencies..."
 cd /opt
-CYPRESS_INSTALL_BINARY=0 pnpm install --frozen-lockfile --package-manager-strict=false
 
-echo "Building production assets (Bypassing Supervisor Build Timeout)..."
-pnpm build
+if [[ ! -f package.json ]]; then
+    bashio::log.fatal "Seerr package.json was not found in /opt."
+    exit 1
+fi
 
-echo "Cleaning up development dependencies..."
-pnpm prune --prod
+if [[ ! -f committag.json ]]; then
+    printf '{"commitTag":"%s"}\n' "${COMMIT_TAG}" > /opt/committag.json
+fi
 
-echo "{\"commitTag\": \"${COMMIT_TAG}\"}" > "/opt/committag.json"
+bashio::log.info "Starting Seerr ${COMMIT_TAG}..."
 
-echo "Starting application..."
-exec pnpm start --package-manager-strict=false
+exec pnpm start
