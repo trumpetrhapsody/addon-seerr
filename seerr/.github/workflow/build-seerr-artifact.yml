@@ -1,0 +1,127 @@
+name: Build Seerr Artifact
+
+on:
+  workflow_dispatch:
+    inputs:
+      seerr_version:
+        description: Seerr version without the leading v
+        required: true
+        default: "3.4.1"
+
+  push:
+    tags:
+      - "artifact-v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      SEERR_VERSION: ${{ inputs.seerr_version || '3.4.1' }}
+      PNPM_VERSION: "10.24.0"
+      CYPRESS_INSTALL_BINARY: "0"
+
+    steps:
+      - name: Check out add-on repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Enable Corepack
+        run: |
+          corepack enable
+          corepack prepare "pnpm@${PNPM_VERSION}" --activate
+          pnpm --version
+
+      - name: Download Seerr source
+        run: |
+          set -Eeuo pipefail
+
+          mkdir -p build/seerr
+
+          curl \
+            --fail \
+            --show-error \
+            --silent \
+            --location \
+            --retry 3 \
+            --output /tmp/seerr.tar.gz \
+            "https://github.com/seerr-team/seerr/archive/v${SEERR_VERSION}.tar.gz"
+
+          tar \
+            --extract \
+            --gzip \
+            --file /tmp/seerr.tar.gz \
+            --strip-components=1 \
+            --directory build/seerr
+
+      - name: Install dependencies
+        working-directory: build/seerr
+        run: |
+          pnpm install \
+            --frozen-lockfile \
+            --package-manager-strict=false
+
+      - name: Build Seerr
+        working-directory: build/seerr
+        run: |
+          pnpm build
+
+      - name: Remove development dependencies
+        working-directory: build/seerr
+        run: |
+          pnpm prune --prod
+
+      - name: Add build metadata
+        working-directory: build/seerr
+        run: |
+          printf '{"commitTag":"v%s"}\n' \
+            "${SEERR_VERSION}" \
+            > committag.json
+
+      - name: Remove unnecessary files
+        working-directory: build/seerr
+        run: |
+          rm -rf \
+            .git \
+            .github \
+            .next/cache \
+            coverage \
+            cypress \
+            test \
+            tests
+
+      - name: Package application
+        run: |
+          set -Eeuo pipefail
+
+          tar \
+            --create \
+            --gzip \
+            --file "seerr-${SEERR_VERSION}-linux-x64.tar.gz" \
+            --directory build/seerr \
+            .
+
+          sha256sum \
+            "seerr-${SEERR_VERSION}-linux-x64.tar.gz" \
+            > "seerr-${SEERR_VERSION}-linux-x64.tar.gz.sha256"
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -Eeuo pipefail
+
+          RELEASE_TAG="seerr-artifact-v${SEERR_VERSION}"
+
+          gh release create "${RELEASE_TAG}" \
+            --title "Seerr prebuilt artifact v${SEERR_VERSION}" \
+            --notes "Prebuilt Seerr application artifact for the Home Assistant add-on." \
+            "seerr-${SEERR_VERSION}-linux-x64.tar.gz" \
+            "seerr-${SEERR_VERSION}-linux-x64.tar.gz.sha256"
