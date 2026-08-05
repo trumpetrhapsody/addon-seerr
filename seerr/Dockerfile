@@ -1,5 +1,4 @@
-ARG BUILD_FROM=ghcr.io/hassio-addons/base:18.2.1
-FROM ${BUILD_FROM}
+FROM ghcr.io/hassio-addons/base:18.2.1
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -7,7 +6,6 @@ ARG SEERR_VERSION="3.4.1"
 ARG SEERR_ARTIFACT_SHA256="15e2d75dfc2bd8c99f78876c7a81e7921f32cb5f0433dee3355e90cfec93e365"
 
 ENV \
-    CI="true" \
     COMMIT_TAG="v${SEERR_VERSION}" \
     CYPRESS_INSTALL_BINARY="0" \
     NEXT_TELEMETRY_DISABLED="1"
@@ -44,7 +42,7 @@ RUN \
          exit 1; \
        fi \
     && npm install --global "${PACKAGE_MANAGER}" \
-    && pnpm install --prod --frozen-lockfile \
+    && CI=true pnpm install --prod --frozen-lockfile \
     && pnpm store prune \
     && rm -rf /root/.npm /root/.cache
 
