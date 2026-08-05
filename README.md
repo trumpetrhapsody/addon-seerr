@@ -1,4 +1,4 @@
-# Home Assistant Add-on: Overseerr (IPv4 Fixed)
+# Home Assistant Add-on: Seerr
 
 **This is a modified version of the official Overseerr add-on with IPv4/IPv6 connectivity fixes.**
 
