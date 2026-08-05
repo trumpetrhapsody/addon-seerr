@@ -24,6 +24,7 @@ jobs:
 
     env:
       SEERR_VERSION: ${{ inputs.seerr_version }}
+      COMMIT_TAG: v${{ inputs.seerr_version }}
       NODE_VERSION: "22"
       CYPRESS_INSTALL_BINARY: "0"
       NEXT_TELEMETRY_DISABLED: "1"
@@ -122,6 +123,16 @@ jobs:
 
           pnpm install --frozen-lockfile
 
+      - name: Write Seerr version metadata
+        working-directory: build/seerr
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+
+          printf '{"commitTag":"%s"}\n' \
+            "${COMMIT_TAG}" \
+            > committag.json
+      
       - name: Build Seerr
         working-directory: build/seerr
         shell: bash
@@ -169,10 +180,6 @@ jobs:
             "  \"builtAt\": \"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\"" \
             '}' \
             > artifact-build.json
-
-          printf '{"commitTag":"v%s"}\n' \
-            "${SEERR_VERSION}" \
-            > committag.json
 
       - name: Remove files not needed by the add-on
         working-directory: build/seerr
