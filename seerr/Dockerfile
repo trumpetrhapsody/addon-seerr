@@ -19,8 +19,6 @@ RUN \
         npm \
         curl \
         tar \
-    && echo "SEERR_VERSION=${SEERR_VERSION}" \
-    && echo "SEERR_ARTIFACT_SHA256=${SEERR_ARTIFACT_SHA256}" \
     && curl \
         --fail \
         --show-error \
