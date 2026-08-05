@@ -46,7 +46,6 @@ RUN \
     && npm install --global "${PACKAGE_MANAGER}" \
     && pnpm install --prod --frozen-lockfile \
     && pnpm store prune \
-    && yarn --version \
     && rm -rf /root/.npm /root/.cache
 
 COPY rootfs /
