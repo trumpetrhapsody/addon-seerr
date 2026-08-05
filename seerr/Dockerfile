@@ -27,7 +27,7 @@ RUN \
         --retry 3 \
         --retry-delay 5 \
         --output /tmp/seerr-prebuilt.tar.gz \
-        "https://github.com/YOUR-USERNAME/YOUR-REPOSITORY/releases/download/seerr-artifact-v${SEERR_VERSION}/seerr-${SEERR_VERSION}-prebuilt.tar.gz" \
+        "https://github.com/trumpetrhapsody/addon-seerr/releases/download/seerr-artifact-v${SEERR_VERSION}/seerr-${SEERR_VERSION}-prebuilt.tar.gz" \
     && echo "${SEERR_ARTIFACT_SHA256}  /tmp/seerr-prebuilt.tar.gz" \
         | sha256sum -c - \
     && tar \
