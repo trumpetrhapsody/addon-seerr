@@ -1,0 +1,29 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Home Assistant Community Add-on: Seerr
+# Runs Seerr
+# ==============================================================================
+export NODE_ENV=production
+export PORT=5055
+export CONFIG_DIRECTORY="/config"
+
+# Read host configuration from add-on options
+if bashio::config.has_value 'host'; then
+    export HOST="$(bashio::config 'host')"
+    bashio::log.info "Using configured host: ${HOST}"
+else
+    export HOST="0.0.0.0"
+    bashio::log.info "Using default host: ${HOST}"
+fi
+
+# Force IPv4 DNS resolution if configured (fixes localhost resolving to ::1)
+if bashio::config.true 'prefer_ipv4'; then
+    export NODE_OPTIONS="--dns-result-order=ipv4first"
+    bashio::log.info "IPv4 DNS resolution preference enabled"
+fi
+
+bashio::log.info 'Starting Seerr...'
+
+cd /opt || bashio::exit.nok 'Could not change directory to /opt'
+exec yarn start

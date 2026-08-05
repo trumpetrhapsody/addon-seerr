@@ -1,0 +1,23 @@
+---
+name: Seerr
+version: 1.0.0
+slug: seerr
+description: Request management and media discovery tool for the Plex ecosystem
+url: https://github.com/hassio-addons/addon-overseerr/tree/main/README.md
+webui: http://[HOST]:[PORT:5055]
+init: false
+arch:
+  - aarch64
+  - amd64
+map:
+  - addon_config:rw
+  - share:rw
+  - media:rw
+ports:
+  5055/tcp: 5055
+options:
+  host: "0.0.0.0"
+  prefer_ipv4: true
+schema:
+  host: str
+  prefer_ipv4: bool
