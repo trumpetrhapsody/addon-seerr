@@ -4,53 +4,60 @@ on:
   workflow_dispatch:
     inputs:
       seerr_version:
-        description: Seerr version without the leading v
+        description: "Seerr version without the leading v"
         required: true
         default: "3.4.1"
-
-  push:
-    tags:
-      - "artifact-v*"
+        type: string
 
 permissions:
   contents: write
 
+concurrency:
+  group: seerr-artifact-${{ inputs.seerr_version }}
+  cancel-in-progress: false
+
 jobs:
   build:
+    name: Build Seerr ${{ inputs.seerr_version }}
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     env:
-      SEERR_VERSION: ${{ inputs.seerr_version || '3.4.1' }}
-      PNPM_VERSION: "10.24.0"
+      SEERR_VERSION: ${{ inputs.seerr_version }}
+      NODE_VERSION: "22"
       CYPRESS_INSTALL_BINARY: "0"
+      NEXT_TELEMETRY_DISABLED: "1"
 
     steps:
       - name: Check out add-on repository
         uses: actions/checkout@v5
 
-      - name: Set up pnpm
-        uses: pnpm/action-setup@v5
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v5
         with:
-          version: "10.24.0"
-          run_install: false
-      
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: "pnpm"
+          node-version: ${{ env.NODE_VERSION }}
 
-      - name: Enable Corepack
-        run: |
-          corepack enable
-          corepack prepare "pnpm@${PNPM_VERSION}" --activate
-          pnpm --version
-
-      - name: Download Seerr source
+      - name: Verify Node.js version
+        shell: bash
         run: |
           set -Eeuo pipefail
 
-          mkdir -p build/seerr
+          echo "Node.js version: $(node --version)"
+          echo "npm version: $(npm --version)"
+
+          NODE_MAJOR="$(node --version | sed -E 's/^v([0-9]+).*/\1/')"
+
+          if [[ "${NODE_MAJOR}" != "22" ]]; then
+            echo "::error::Expected Node.js 22, but found $(node --version)"
+            exit 1
+          fi
+
+      - name: Download Seerr source
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+
+          mkdir -p "${GITHUB_WORKSPACE}/build/seerr"
 
           curl \
             --fail \
@@ -58,77 +65,188 @@ jobs:
             --silent \
             --location \
             --retry 3 \
-            --output /tmp/seerr.tar.gz \
-            "https://github.com/seerr-team/seerr/archive/v${SEERR_VERSION}.tar.gz"
+            --retry-delay 5 \
+            --output "${RUNNER_TEMP}/seerr-source.tar.gz" \
+            "https://github.com/seerr-team/seerr/archive/refs/tags/v${SEERR_VERSION}.tar.gz"
 
           tar \
             --extract \
             --gzip \
-            --file /tmp/seerr.tar.gz \
+            --file "${RUNNER_TEMP}/seerr-source.tar.gz" \
             --strip-components=1 \
-            --directory build/seerr
+            --directory "${GITHUB_WORKSPACE}/build/seerr"
 
-      - name: Install dependencies
+          test -f "${GITHUB_WORKSPACE}/build/seerr/package.json"
+          test -f "${GITHUB_WORKSPACE}/build/seerr/pnpm-lock.yaml"
+
+      - name: Configure Seerr package manager
         working-directory: build/seerr
+        shell: bash
         run: |
-          pnpm install \
-            --frozen-lockfile \
-            --package-manager-strict=false
+          set -Eeuo pipefail
+
+          PACKAGE_MANAGER="$(
+            node -e '
+              const packageJson = require("./package.json");
+              process.stdout.write(packageJson.packageManager || "");
+            '
+          )"
+
+          if [[ -z "${PACKAGE_MANAGER}" ]]; then
+            echo "::error::Seerr package.json does not declare a packageManager."
+            exit 1
+          fi
+
+          if [[ "${PACKAGE_MANAGER}" != pnpm@* ]]; then
+            echo "::error::Expected a pnpm package manager declaration, but found: ${PACKAGE_MANAGER}"
+            exit 1
+          fi
+
+          echo "Seerr requires ${PACKAGE_MANAGER}"
+
+          corepack enable
+          corepack prepare "${PACKAGE_MANAGER}" --activate
+
+          echo "pnpm version: $(pnpm --version)"
+
+          {
+            echo "PACKAGE_MANAGER=${PACKAGE_MANAGER}"
+            echo "PNPM_VERSION=$(pnpm --version)"
+          } >> "${GITHUB_ENV}"
+
+      - name: Install build dependencies
+        working-directory: build/seerr
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+
+          pnpm install --frozen-lockfile
 
       - name: Build Seerr
         working-directory: build/seerr
+        shell: bash
         run: |
+          set -Eeuo pipefail
+
           pnpm build
 
-      - name: Remove development dependencies
+      - name: Verify build output
         working-directory: build/seerr
+        shell: bash
         run: |
-          pnpm prune --prod
+          set -Eeuo pipefail
 
-      - name: Add build metadata
+          echo "Top-level application files:"
+          find . \
+            -maxdepth 2 \
+            -type f \
+            | sort \
+            | head -200
+
+          if [[ -d ".next" ]]; then
+            echo "Found Next.js build output in .next"
+          elif [[ -d "dist" ]]; then
+            echo "Found build output in dist"
+          elif [[ -d "build" ]]; then
+            echo "Found build output in build"
+          else
+            echo "::warning::No .next, dist, or build directory was found."
+            echo "::warning::Review the build output before using this artifact."
+          fi
+
+      - name: Write artifact metadata
         working-directory: build/seerr
+        shell: bash
         run: |
+          set -Eeuo pipefail
+
+          printf '%s\n' \
+            '{' \
+            "  \"seerrVersion\": \"${SEERR_VERSION}\"," \
+            "  \"commitTag\": \"v${SEERR_VERSION}\"," \
+            "  \"nodeVersion\": \"$(node --version)\"," \
+            "  \"packageManager\": \"${PACKAGE_MANAGER}\"," \
+            "  \"builtAt\": \"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\"" \
+            '}' \
+            > artifact-build.json
+
           printf '{"commitTag":"v%s"}\n' \
             "${SEERR_VERSION}" \
             > committag.json
 
-      - name: Remove unnecessary files
+      - name: Remove files not needed by the add-on
         working-directory: build/seerr
+        shell: bash
         run: |
+          set -Eeuo pipefail
+
           rm -rf \
+            node_modules \
             .git \
             .github \
-            .next/cache \
+            .husky \
+            .vscode \
             coverage \
             cypress \
             test \
             tests
 
-      - name: Package application
+          rm -rf .next/cache
+
+          find . \
+            -type f \
+            \( \
+              -name "*.log" \
+              -o -name "*.tsbuildinfo" \
+            \) \
+            -delete
+
+      - name: Create release archive
+        shell: bash
         run: |
           set -Eeuo pipefail
+
+          ARTIFACT_NAME="seerr-${SEERR_VERSION}-prebuilt.tar.gz"
+          ARTIFACT_PATH="${GITHUB_WORKSPACE}/${ARTIFACT_NAME}"
 
           tar \
             --create \
             --gzip \
-            --file "seerr-${SEERR_VERSION}-linux-x64.tar.gz" \
-            --directory build/seerr \
+            --file "${ARTIFACT_PATH}" \
+            --directory "${GITHUB_WORKSPACE}/build/seerr" \
             .
 
-          sha256sum \
-            "seerr-${SEERR_VERSION}-linux-x64.tar.gz" \
-            > "seerr-${SEERR_VERSION}-linux-x64.tar.gz.sha256"
+          sha256sum "${ARTIFACT_PATH}" \
+            > "${ARTIFACT_PATH}.sha256"
 
-      - name: Create GitHub release
+          echo "ARTIFACT_NAME=${ARTIFACT_NAME}" >> "${GITHUB_ENV}"
+          echo "ARTIFACT_PATH=${ARTIFACT_PATH}" >> "${GITHUB_ENV}"
+
+          ls -lh \
+            "${ARTIFACT_PATH}" \
+            "${ARTIFACT_PATH}.sha256"
+
+      - name: Publish GitHub release
+        shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -Eeuo pipefail
 
           RELEASE_TAG="seerr-artifact-v${SEERR_VERSION}"
+          RELEASE_TITLE="Seerr prebuilt artifact v${SEERR_VERSION}"
 
-          gh release create "${RELEASE_TAG}" \
-            --title "Seerr prebuilt artifact v${SEERR_VERSION}" \
-            --notes "Prebuilt Seerr application artifact for the Home Assistant add-on." \
-            "seerr-${SEERR_VERSION}-linux-x64.tar.gz" \
-            "seerr-${SEERR_VERSION}-linux-x64.tar.gz.sha256"
+          if gh release view "${RELEASE_TAG}" >/dev/null 2>&1; then
+            echo "Release ${RELEASE_TAG} already exists; replacing its assets."
+
+            gh release upload "${RELEASE_TAG}" \
+              "${ARTIFACT_PATH}" \
+              "${ARTIFACT_PATH}.sha256" \
+              --clobber
+          else
+            gh release create "${RELEASE_TAG}" \
+              "${ARTIFACT_PATH}" \
+              "${ARTIFACT_PATH}.sha256" \
+              --title "${RELEASE_TITLE}" \
+              --notes "Prebuilt Seerr v${SEERR_VERSION} application files for the Home Assistant add-on. Production dependencies are intentionally excluded and must be installed in the target add-on image."
+          fi
