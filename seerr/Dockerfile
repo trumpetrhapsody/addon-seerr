@@ -45,16 +45,12 @@ RUN \
          echo "Invalid or missing packageManager in package.json: ${PACKAGE_MANAGER}" >&2; \
          exit 1; \
        fi \
-    && npm install --global "${PACKAGE_MANAGER}" yarn@1.22.22 \
     && pnpm install --prod --frozen-lockfile \
     && pnpm store prune \
     && yarn --version \
     && rm -rf /root/.npm /root/.cache
 
 COPY rootfs /
-COPY --chmod=0755 run.sh /run.sh
-
-CMD ["/run.sh"]
 
 ARG BUILD_ARCH
 ARG BUILD_DATE
