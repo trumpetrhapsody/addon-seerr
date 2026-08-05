@@ -7,7 +7,7 @@
 1. Add this repository to your Home Assistant Add-on Store:
    - Go to **Settings → Add-ons → Add-on Store**
    - Click **⋮** (three dots menu) → **Repositories**
-   - Add this URL: `https://github.com/catakatt96-web/addon-overseerr-ipv4`
+   - Add this URL: `https://github.com/trumpetrhapsody/addon-seerr`
    - Click **Add** → **Close**
 
 2. Find "Overseerr" in the add-on store and install it
