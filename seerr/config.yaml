@@ -9,24 +9,15 @@ init: false
 arch:
   - aarch64
   - amd64
-
-build:
-  args:
-    SEERR_VERSION: "3.4.1"
-    SEERR_ARTIFACT_SHA256: "15e2d75dfc2bd8c99f78876c7a81e7921f32cb5f0433dee3355e90cfec93e365"
-
 map:
   - addon_config:rw
   - share:rw
   - media:rw
-
 ports:
   5055/tcp: 5055
-
 options:
   host: "0.0.0.0"
   prefer_ipv4: true
-
 schema:
   host: str
   prefer_ipv4: bool
