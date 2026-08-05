@@ -43,6 +43,7 @@ RUN \
          echo "Invalid or missing packageManager in package.json: ${PACKAGE_MANAGER}" >&2; \
          exit 1; \
        fi \
+    && npm install --global "${PACKAGE_MANAGER}" \
     && pnpm install --prod --frozen-lockfile \
     && pnpm store prune \
     && yarn --version \
