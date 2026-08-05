@@ -37,14 +37,15 @@ RUN \
         --directory /opt \
     && rm -f /tmp/seerr-prebuilt.tar.gz \
     && PACKAGE_MANAGER="$(node -e \
-        'process.stdout.write(require("/opt/package.json").packageManager || "")')" \
+    'process.stdout.write(require("/opt/package.json").packageManager || "")')" \
     && if [[ "${PACKAGE_MANAGER}" != pnpm@* ]]; then \
          echo "Invalid or missing packageManager in package.json: ${PACKAGE_MANAGER}" >&2; \
          exit 1; \
        fi \
-    && npm install --global "${PACKAGE_MANAGER}" \
+    && npm install --global "${PACKAGE_MANAGER}" yarn@1.22.22 \
     && pnpm install --prod --frozen-lockfile \
     && pnpm store prune \
+    && yarn --version \
     && rm -rf /root/.npm /root/.cache
 
 COPY rootfs /
