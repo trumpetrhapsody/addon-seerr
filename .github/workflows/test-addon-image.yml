@@ -34,7 +34,10 @@ jobs:
             platform: linux/amd64
             load: true
             smoke_test: true
-
+          - arch: armv7
+            platform: linux/arm/v7
+            load: false
+            smoke_test: false
           - arch: aarch64
             platform: linux/arm64
             load: false
