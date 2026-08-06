@@ -105,8 +105,16 @@ jobs:
             --detach \
             --name "${CONTAINER_NAME}" \
             --publish 5055:5055 \
-            --volume "${DATA_DIR}:/data" \
-            addon-seerr:test
+            --volume "${CONFIG_DIR}:/config" \
+            --env NODE_ENV=production \
+            --env PORT=5055 \
+            --env CONFIG_DIRECTORY=/config \
+            --env HOST=0.0.0.0 \
+            --env NODE_OPTIONS=--dns-result-order=ipv4first \
+            --workdir /opt \
+            --entrypoint /bin/bash \
+            addon-seerr:test \
+            -c 'exec pnpm start'
 
           echo "Waiting for Seerr to become available..."
 
