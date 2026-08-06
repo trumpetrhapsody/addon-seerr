@@ -51,6 +51,9 @@ RUN \
     && rm -rf /root/.npm /root/.cache /tmp/*
 
 COPY rootfs /
+RUN chmod 0755 \
+    /etc/s6-overlay/s6-rc.d/seerr/run \
+    /etc/s6-overlay/s6-rc.d/seerr/finish
 
 ARG BUILD_ARCH
 ARG BUILD_DATE
