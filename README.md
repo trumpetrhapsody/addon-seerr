@@ -75,5 +75,5 @@ SOFTWARE.
 [issue]: https://github.com/trumpetrhapsody/addon-seerr/issues
 [license-shield]: https://img.shields.io/github/license/trumpetrhapsody/addon-seerr.svg
 [maintenance-shield]: https://img.shields.io/maintenance/yes/2026.svg
-[project-stage-shield]: https://img.shields.io/badge/project%20stage-experimental-yellow.svg
+[project-stage-shield]: [https://img.shields.io/badge/project%20stage-experimental-yellow.svg](https://img.shields.io/badge/project%20stage-stable-green.svg)
 [reddit]: https://reddit.com/r/homeassistant
