@@ -15,7 +15,9 @@ WORKDIR /opt
 RUN \
     apk add --no-cache \
         nodejs \
-        npm
+        npm \
+        curl \
+        tar \
     && curl \
         --fail \
         --show-error \
@@ -46,6 +48,7 @@ RUN \
     && npm install --global "${PACKAGE_MANAGER}" \
     && CI=true pnpm install --prod --frozen-lockfile \
     && pnpm store prune \
+    && apk del curl tar \
     && rm -rf /root/.npm /root/.cache /tmp/*
 
 COPY rootfs /
