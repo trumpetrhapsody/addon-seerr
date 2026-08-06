@@ -11,7 +11,7 @@ arch:
   - aarch64
   - amd64
 map:
-  - add_config:rw
+  - app_config:rw
 ports:
   5055/tcp: 5055
 ports_description:
