@@ -108,6 +108,8 @@ SOFTWARE.
 [armv7-shield]: https://img.shields.io/badge/armv7-yes-green.svg
 [commits-shield]: https://img.shields.io/github/commit-activity/y/trumpetrhapsody/addon-seerr.svg
 [commits]: https://github.com/trumpetrhapsody/addon-seerr/commits/main
+[releases-shield]: https://img.shields.io/github/release/trumpetrhapsody/addon-seerr.svg
+[releases]: https://github.com/trumpetrhapsody/addon-seerr/releases
 [trumpetrhapsody]: https://github.com/trumpetrhapsody
 [contributors]: https://github.com/trumpetrhapsody/addon-seerr/graphs/contributors
 [seerr]: https://seerr.dev/
@@ -116,7 +118,7 @@ SOFTWARE.
 [discord]: https://discord.me/hassioaddons
 [docs]: https://github.com/trumpetrhapsody/addon-seerr/blob/main/overseerr/DOCS.md
 [forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg
-[github-actions-shield]: https://github.com/hassio-addons/addon-overseerr/workflows/CI/badge.svg
+[github-actions-shield]: https://github.com/trumpetrhapsody/addon-seerr/workflows/CI/badge.svg
 [github-actions]: https://github.com/trumpetrhapsody/addon-seerr/actions
 [i386-shield]: https://img.shields.io/badge/i386-no-red.svg
 [issue]: https://github.com/hassio-addons/addon-overseerr/issues
@@ -124,5 +126,3 @@ SOFTWARE.
 [maintenance-shield]: https://img.shields.io/maintenance/yes/2024.svg
 [project-stage-shield]: https://img.shields.io/badge/project%20stage-experimental-yellow.svg
 [reddit]: https://reddit.com/r/homeassistant
-[releases-shield]: https://img.shields.io/github/release/hassio-addons/addon-overseerr.svg
-[releases]: https://github.com/trumpetrhapsody/addon-seerr/releases
