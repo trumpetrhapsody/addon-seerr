@@ -1,6 +1,6 @@
 # Home Assistant Add-on: Seerr
 
-**This is a modified version of the official Overseerr add-on with IPv4/IPv6 connectivity fixes.**
+This is a complete overhaul of the official Overseerr add-on to support Components from the forked IPv4/IPv6 connectivity fixes were also integrated.
 
 ## Installation
 
@@ -10,21 +10,17 @@
    - Add this URL: `https://github.com/trumpetrhapsody/addon-seerr`
    - Click **Add** → **Close**
 
-2. Find "Overseerr" in the add-on store and install it
+2. Find "Seerr" in the add-on store and install it
 
 3. In the **Configuration** tab, ensure `prefer_ipv4: true` is set
 
-## What's Fixed
-
-This version adds a `prefer_ipv4` configuration option that forces Node.js to use IPv4 addresses when resolving DNS. This fixes the `ECONNREFUSED ::1:5055` error that occurs when `localhost` resolves to IPv6 instead of IPv4.
-
 ---
 
-# Original README: Home Assistant Community Add-on: Overseerr
+# Home Assistant Community Add-on: Seerr
 
 [![GitHub Release][releases-shield]][releases]
 ![Project Stage][project-stage-shield]
-[![License][license-shield]](LICENSE.md)
+[![License][license-shield]](LICENSE)
 
 ![Supports armhf Architecture][armhf-shield]
 ![Supports armv7 Architecture][armv7-shield]
@@ -43,11 +39,11 @@ Request management and media discovery tool for the Plex ecosystem.
 
 ## About
 
-[Overseerr] is a multi-platform binary newsgroup downloader. The program works in
+[Seerr] is a multi-platform binary newsgroup downloader. The program works in
 the background and simplifies the downloading verifying and extracting of files
 from [Usenet].
 
-[Overseerr]: https://overseerr.dev/
+[Seerr]: https://overseerr.dev/
 [Usenet]: http://en.wikipedia.org/wiki/Usenet
 
 [:books: Read the full add-on documentation][docs]
@@ -79,10 +75,10 @@ Thank you for being involved! :heart_eyes:
 
 ## Authors & contributors
 
-The original setup of this repository is by [Franck Nijhof][frenck].
+The original setup of this repository is by [trumpetrhapsody].
 
 For a full list of all authors and contributors,
-check [the contributor's page][contributors].
+check [the contributor's page].
 
 ## We have got some Home Assistant add-ons for you
 
@@ -95,7 +91,7 @@ our [GitHub Repository][repository].
 
 MIT License
 
-Copyright (c) 2024 Franck Nijhof
+Copyright (c) 2024 trumpetrhapsody
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -127,10 +123,10 @@ SOFTWARE.
 [discord]: https://discord.me/hassioaddons
 [docs]: https://github.com/hassio-addons/addon-overseerr/blob/main/overseerr/DOCS.md
 [forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg
-[forum]: https://community.home-assistant.io/t/?u=frenck
-[frenck]: https://github.com/frenck
 [github-actions-shield]: https://github.com/hassio-addons/addon-overseerr/workflows/CI/badge.svg
 [github-actions]: https://github.com/hassio-addons/addon-overseerr/actions
+[trumpetrhapsody]: https://github.com/trumpetrhapsody
+[the contributor's page]: https://github.com/trumpetrhapsody/addon-seerr/graphs/contributors
 [i386-shield]: https://img.shields.io/badge/i386-no-red.svg
 [issue]: https://github.com/hassio-addons/addon-overseerr/issues
 [license-shield]: https://img.shields.io/github/license/hassio-addons/addon-overseerr.svg
@@ -138,5 +134,6 @@ SOFTWARE.
 [project-stage-shield]: https://img.shields.io/badge/project%20stage-experimental-yellow.svg
 [reddit]: https://reddit.com/r/homeassistant
 [releases-shield]: https://img.shields.io/github/release/hassio-addons/addon-overseerr.svg
-[releases]: https://github.com/hassio-addons/addon-overseerr/releases
-[repository]: https://github.com/hassio-addons/repository
+[releases]: https://github.com/trumpetrhapsody/addon-seerr/releases
+[repository]: https://github.com/trumpetrhapsody/repository
+[seerr]: https://seerr.dev/
