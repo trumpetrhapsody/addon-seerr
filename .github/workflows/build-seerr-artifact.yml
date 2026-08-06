@@ -146,24 +146,20 @@ jobs:
         shell: bash
         run: |
           set -Eeuo pipefail
-
-          echo "Top-level application files:"
-          find . \
-            -maxdepth 2 \
-            -type f \
-            | sort \
-            | head -200
-
-          if [[ -d ".next" ]]; then
-            echo "Found Next.js build output in .next"
-          elif [[ -d "dist" ]]; then
-            echo "Found build output in dist"
-          elif [[ -d "build" ]]; then
-            echo "Found build output in build"
-          else
-            echo "::warning::No .next, dist, or build directory was found."
-            echo "::warning::Review the build output before using this artifact."
-          fi
+      
+          test -d .next \
+            || { echo "::error::.next build output is missing"; exit 1; }
+      
+          test -f dist/index.js \
+            || { echo "::error::dist/index.js is missing"; exit 1; }
+      
+          test -f package.json \
+            || { echo "::error::package.json is missing"; exit 1; }
+      
+          test -f pnpm-lock.yaml \
+            || { echo "::error::pnpm-lock.yaml is missing"; exit 1; }
+      
+          echo "Verified required Seerr build outputs."
 
       - name: Write artifact metadata
         working-directory: build/seerr
@@ -244,16 +240,13 @@ jobs:
           RELEASE_TITLE="Seerr prebuilt artifact v${SEERR_VERSION}"
 
           if gh release view "${RELEASE_TAG}" >/dev/null 2>&1; then
-            echo "Release ${RELEASE_TAG} already exists; replacing its assets."
-
-            gh release upload "${RELEASE_TAG}" \
-              "${ARTIFACT_PATH}" \
-              "${ARTIFACT_PATH}.sha256" \
-              --clobber
-          else
-            gh release create "${RELEASE_TAG}" \
-              "${ARTIFACT_PATH}" \
-              "${ARTIFACT_PATH}.sha256" \
-              --title "${RELEASE_TITLE}" \
-              --notes "Prebuilt Seerr v${SEERR_VERSION} application files for the Home Assistant add-on. Production dependencies are intentionally excluded and must be installed in the target add-on image."
+            echo "::error::Release ${RELEASE_TAG} already exists."
+            echo "::error::Use a new Seerr version or delete the existing release intentionally."
+            exit 1
           fi
+          
+          gh release create "${RELEASE_TAG}" \
+            "${ARTIFACT_PATH}" \
+            "${ARTIFACT_PATH}.sha256" \
+            --title "${RELEASE_TITLE}" \
+            --notes "Prebuilt Seerr v${SEERR_VERSION} application files for the Home Assistant add-on. Production dependencies are intentionally excluded and must be installed in the target add-on image."
