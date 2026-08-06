@@ -13,8 +13,8 @@ ENV \
 WORKDIR /opt
 
 RUN \
-    apk add --no-cache \
-        npm \
+    apk add --no-cache npm \
+    && apk add --no-cache --virtual .build-deps \
         curl \
         tar \
     && curl \
@@ -47,7 +47,7 @@ RUN \
     && npm install --global "${PACKAGE_MANAGER}" \
     && CI=true pnpm install --prod --frozen-lockfile \
     && pnpm store prune \
-    && apk del curl tar \
+    && apk del .build-deps
     && rm -rf /root/.npm /root/.cache /tmp/*
 
 COPY rootfs /
