@@ -1,21 +1,3 @@
-# Home Assistant Add-on: Seerr
-
-This is a complete overhaul of the official Overseerr add-on to update to the rebranded Seer application. Components from the forked IPv4/IPv6 connectivity fixes were also integrated.
-
-## Installation
-
-1. Add this repository to your Home Assistant Add-on Store:
-   - Go to **Settings → Add-ons → Add-on Store**
-   - Click **⋮** (three dots menu) → **Repositories**
-   - Add this URL: `https://github.com/trumpetrhapsody/addon-seerr`
-   - Click **Add** → **Close**
-
-2. Find "Seerr" in the add-on store and install it
-
-3. In the **Configuration** tab, ensure `prefer_ipv4: true` is set
-
----
-
 # Home Assistant Community Add-on: Seerr
 
 [![GitHub Release][releases-shield]][releases]
@@ -40,6 +22,18 @@ Request management and media discovery tool for the Plex ecosystem.
 [Seerr]: https://overseerr.dev/
 
 [:books: Read the full add-on documentation][docs]
+
+## Installation
+
+1. Add this repository to your Home Assistant Add-on Store:
+   - Go to **Settings → Add-ons → Add-on Store**
+   - Click **⋮** (three dots menu) → **Repositories**
+   - Add this URL: `https://github.com/trumpetrhapsody/addon-seerr`
+   - Click **Add** → **Close**
+
+2. Find "Seerr" in the add-on store and install it
+
+3. In the **Configuration** tab, ensure `prefer_ipv4: true` is set
 
 ## Support
 
