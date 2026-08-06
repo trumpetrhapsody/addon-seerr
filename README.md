@@ -80,13 +80,6 @@ The original setup of this repository is by [trumpetrhapsody].
 For a full list of all authors and contributors,
 check [the contributor's page].
 
-## We have got some Home Assistant add-ons for you
-
-Want some more functionality to your Home Assistant instance?
-
-We have created multiple add-ons for Home Assistant. For a full list, check out
-our [GitHub Repository][repository].
-
 ## License
 
 MIT License
@@ -135,5 +128,4 @@ SOFTWARE.
 [reddit]: https://reddit.com/r/homeassistant
 [releases-shield]: https://img.shields.io/github/release/hassio-addons/addon-overseerr.svg
 [releases]: https://github.com/trumpetrhapsody/addon-seerr/releases
-[repository]: https://github.com/trumpetrhapsody/repository
 [seerr]: https://seerr.dev/
