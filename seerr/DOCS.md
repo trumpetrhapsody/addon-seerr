@@ -2,8 +2,6 @@
 
 [Seerr] is a free, open-source request management and media discovery tool for Jellyfin, Plex, and Emby. The unified evolution of Overseerr and Jellyseerr.
 
-[Seerr]: https://seerr.dev/
-
 ## Installation
 
 The installation of this add-on is pretty straightforward and not different in
