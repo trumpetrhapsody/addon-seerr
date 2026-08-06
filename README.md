@@ -1,7 +1,8 @@
-# Home Assistant Community Add-on: Seerr
+# Home Assistant Add-on: Seerr
 
 [![GitHub Release][releases-shield]][releases]
 ![Project Stage][project-stage-shield]
+![Project Maintenance][maintenance-shield]
 [![License][license-shield]](LICENSE)
 
 ![Supports armhf Architecture][armhf-shield]
@@ -9,9 +10,6 @@
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
 ![Supports i386 Architecture][i386-shield]
-
-![Project Maintenance][maintenance-shield]
-[![GitHub Activity][commits-shield]][commits]
 
 ## About
 
@@ -21,29 +19,10 @@
 
 [:books: Read the full add-on documentation][docs]
 
-## Support
-
-Got questions?
-
-You have several options to get them answered:
-
-- The [Home Assistant Community Add-ons Discord chat server][discord] for add-on
-  support and feature requests.
-- The [Home Assistant Discord chat server][discord-ha] for general Home
-  Assistant discussions and questions.
-- Join the [Reddit subreddit][reddit] in [/r/homeassistant][reddit]
-
-You could also [open an issue here][issue] GitHub.
-
 ## Contributing
 
 This is an active open-source project. We are always open to people who want to
 use the code or contribute to it.
-
-We have set up a separate document containing our
-[contribution guidelines](.github/CONTRIBUTING.md).
-
-Thank you for being involved! :heart_eyes:
 
 ## Authors & contributors
 
