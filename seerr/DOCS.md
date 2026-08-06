@@ -1,6 +1,6 @@
-# Home Assistant Community Add-on: Overseerr
+# Home Assistant Community Add-on: Seerr
 
-Request management and media discovery tool for the Plex ecosystem.
+A free, open-source request management and media discovery tool for Jellyfin, Plex, and Emby. The unified evolution of Overseerr and Jellyseerr.
 
 ## Installation
 
@@ -12,34 +12,15 @@ comparison to installing any other Home Assistant add-on.
 
    [![Open this add-on in your Home Assistant instance.][addon-badge]][addon]
 
-1. Click the "Install" button to install the add-on.
-1. Start the "Overseerr" add-on
-1. Check the logs of the "Overseerr" add-on to see if everything went well.
-1. Click "OPEN WEB UI" to open the Overseerr interface.
-1. Complete the wizard shown on screen.
+1. Add this repository to your Home Assistant Add-on Store:
+   - Go to **Settings → Add-ons → Add-on Store**
+   - Click **⋮** (three dots menu) → **Repositories**
+   - Add this URL: `https://github.com/catakatt96-web/addon-overseerr-ipv4`
+   - Click **Add** → **Close**
 
-## Configuration
+2. Find "Overseerr" in the add-on store and install it
 
-This add-on provides configuration options to resolve IPv4/IPv6 connectivity issues.
-
-### Option: `host`
-
-The IP address that Overseerr binds to. Default is `0.0.0.0` (all interfaces).
-
-### Option: `prefer_ipv4`
-
-When enabled (default: `true`), forces Node.js to prefer IPv4 addresses when 
-resolving DNS. This fixes the common issue where `localhost` resolves to `::1` 
-(IPv6) instead of `127.0.0.1` (IPv4), causing connection refused errors.
-
-**If you see errors like `ECONNREFUSED ::1:5055`, make sure this option is enabled.**
-
-### Example configuration
-
-```yaml
-host: "0.0.0.0"
-prefer_ipv4: true
-```
+3. In the **Configuration** tab, ensure `prefer_ipv4: true` is set
 
 ## Changelog & Releases
 
