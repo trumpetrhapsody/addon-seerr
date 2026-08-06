@@ -3,6 +3,7 @@
 [Seerr] is a free, open-source request management and media discovery tool for Jellyfin, Plex, and Emby. The unified evolution of Overseerr and Jellyseerr.
 
 [Seerr]: https://seerr.dev/
+
 ## Installation
 
 The installation of this add-on is pretty straightforward and not different in
@@ -72,25 +73,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-[aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
-[amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
-[armhf-shield]: https://img.shields.io/badge/armhf-no-red.svg
-[armv7-shield]: https://img.shields.io/badge/armv7-no-red.svg
-[commits-shield]: https://img.shields.io/github/commit-activity/y/trumpetrhapsody/addon-seerr.svg
-[commits]: https://github.com/trumpetrhapsody/addon-seerr/commits/main
-[releases-shield]: https://img.shields.io/github/release/trumpetrhapsody/addon-seerr.svg
+[addon-badge]: https://my.home-assistant.io/badges/supervisor_addon.svg
+[addon]: https://my.home-assistant.io/redirect/supervisor_addon/?addon=30e2c870_seerr&repository_url=https%3A%2F%2Fgithub.com%2Ftrumpetrhapsody%2Faddon-seerr
 [releases]: https://github.com/trumpetrhapsody/addon-seerr/releases
 [trumpetrhapsody]: https://github.com/trumpetrhapsody
 [contributors]: https://github.com/trumpetrhapsody/addon-seerr/graphs/contributors
 [seerr]: https://seerr.dev/
-[discord-ha]: https://discord.gg/c5DvZ4e
-[discord-shield]: https://img.shields.io/discord/478094546522079232.svg
-[discord]: https://discord.me/hassioaddons
-[docs]: https://github.com/trumpetrhapsody/addon-seerr/blob/main/seerr/DOCS.md
-[forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg
-[i386-shield]: https://img.shields.io/badge/i386-no-red.svg
-[issue]: https://github.com/trumpetrhapsody/addon-seerr/issues
-[license-shield]: https://img.shields.io/github/license/trumpetrhapsody/addon-seerr.svg
-[maintenance-shield]: https://img.shields.io/maintenance/yes/2026.svg
-[project-stage-shield]: https://img.shields.io/badge/project%20stage-experimental-yellow.svg
-[reddit]: https://reddit.com/r/homeassistant
+[semver]: http://semver.org/spec/v2.0.0.html
