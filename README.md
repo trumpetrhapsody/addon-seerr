@@ -1,6 +1,6 @@
 # Home Assistant Add-on: Seerr
 
-This is a complete overhaul of the official Overseerr add-on to support Components from the forked IPv4/IPv6 connectivity fixes were also integrated.
+This is a complete overhaul of the official Overseerr add-on to update to the rebranded Seer application. Components from the forked IPv4/IPv6 connectivity fixes were also integrated.
 
 ## Installation
 
@@ -28,11 +28,8 @@ This is a complete overhaul of the official Overseerr add-on to support Componen
 ![Supports amd64 Architecture][amd64-shield]
 ![Supports i386 Architecture][i386-shield]
 
-[![Github Actions][github-actions-shield]][github-actions]
 ![Project Maintenance][maintenance-shield]
 [![GitHub Activity][commits-shield]][commits]
-
-[![Discord][discord-shield]][discord]
 
 Request management and media discovery tool for the Plex ecosystem.
 
@@ -118,11 +115,9 @@ SOFTWARE.
 [discord]: https://discord.me/hassioaddons
 [docs]: https://github.com/trumpetrhapsody/addon-seerr/blob/main/overseerr/DOCS.md
 [forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg
-[github-actions-shield]: https://github.com/trumpetrhapsody/addon-seerr/workflows/CI/badge.svg
-[github-actions]: https://github.com/trumpetrhapsody/addon-seerr/actions
 [i386-shield]: https://img.shields.io/badge/i386-no-red.svg
 [issue]: https://github.com/hassio-addons/addon-overseerr/issues
 [license-shield]: https://img.shields.io/github/license/hassio-addons/addon-overseerr.svg
-[maintenance-shield]: https://img.shields.io/maintenance/yes/2024.svg
+[maintenance-shield]: https://img.shields.io/maintenance/yes/2026.svg
 [project-stage-shield]: https://img.shields.io/badge/project%20stage-experimental-yellow.svg
 [reddit]: https://reddit.com/r/homeassistant
