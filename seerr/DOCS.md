@@ -1,7 +1,8 @@
-# Home Assistant Community Add-on: Seerr
+# Home Assistant Add-on: Seerr
 
-A free, open-source request management and media discovery tool for Jellyfin, Plex, and Emby. The unified evolution of Overseerr and Jellyseerr.
+[Seerr] is a free, open-source request management and media discovery tool for Jellyfin, Plex, and Emby. The unified evolution of Overseerr and Jellyseerr.
 
+[Seerr]: https://seerr.dev/
 ## Installation
 
 The installation of this add-on is pretty straightforward and not different in
@@ -15,10 +16,10 @@ comparison to installing any other Home Assistant add-on.
 1. Add this repository to your Home Assistant Add-on Store:
    - Go to **Settings → Add-ons → Add-on Store**
    - Click **⋮** (three dots menu) → **Repositories**
-   - Add this URL: `https://github.com/catakatt96-web/addon-overseerr-ipv4`
+   - Add this URL: `https://github.com/trumpetrhapsody/addon-seerr`
    - Click **Add** → **Close**
 
-2. Find "Overseerr" in the add-on store and install it
+2. Find "Seerr" in the add-on store and install it
 
 3. In the **Configuration** tab, ensure `prefer_ipv4: true` is set
 
@@ -35,24 +36,14 @@ based on the following:
 - `MINOR`: Backwards-compatible new features and enhancements.
 - `PATCH`: Backwards-compatible bugfixes and package updates.
 
-## Support
+## Contributing
 
-Got questions?
-
-You have several options to get them answered:
-
-- The [Home Assistant Community Add-ons Discord chat server][discord] for add-on
-  support and feature requests.
-- The [Home Assistant Discord chat server][discord-ha] for general Home
-  Assistant discussions and questions.
-- The Home Assistant [Community Forum][forum].
-- Join the [Reddit subreddit][reddit] in [/r/homeassistant][reddit]
-
-You could also [open an issue here][issue] GitHub.
+This is an active open-source project. We are always open to people who want to
+use the code or contribute to it.
 
 ## Authors & contributors
 
-The original setup of this repository is by [Franck Nijhof][frenck].
+The original setup of this repository is by [trumpetrhapsody].
 
 For a full list of all authors and contributors,
 check [the contributor's page][contributors].
@@ -61,7 +52,7 @@ check [the contributor's page][contributors].
 
 MIT License
 
-Copyright (c) 2024 Franck Nijhof
+Copyright (c) 2024 trumpetrhapsody
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -81,14 +72,25 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-[addon-badge]: https://my.home-assistant.io/badges/supervisor_addon.svg
-[addon]: https://my.home-assistant.io/redirect/supervisor_addon/?addon=a0d7b954_overseerr&repository_url=https%3A%2F%2Fgithub.com%2Fhassio-addons%2Frepository
-[contributors]: https://github.com/hassio-addons/addon-overseerr/graphs/contributors
+[aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
+[amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
+[armhf-shield]: https://img.shields.io/badge/armhf-no-red.svg
+[armv7-shield]: https://img.shields.io/badge/armv7-no-red.svg
+[commits-shield]: https://img.shields.io/github/commit-activity/y/trumpetrhapsody/addon-seerr.svg
+[commits]: https://github.com/trumpetrhapsody/addon-seerr/commits/main
+[releases-shield]: https://img.shields.io/github/release/trumpetrhapsody/addon-seerr.svg
+[releases]: https://github.com/trumpetrhapsody/addon-seerr/releases
+[trumpetrhapsody]: https://github.com/trumpetrhapsody
+[contributors]: https://github.com/trumpetrhapsody/addon-seerr/graphs/contributors
+[seerr]: https://seerr.dev/
 [discord-ha]: https://discord.gg/c5DvZ4e
+[discord-shield]: https://img.shields.io/discord/478094546522079232.svg
 [discord]: https://discord.me/hassioaddons
-[forum]: https://community.home-assistant.io/t/?u=frenck
-[frenck]: https://github.com/frenck
-[issue]: https://github.com/hassio-addons/addon-overseerr/issues
+[docs]: https://github.com/trumpetrhapsody/addon-seerr/blob/main/seerr/DOCS.md
+[forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg
+[i386-shield]: https://img.shields.io/badge/i386-no-red.svg
+[issue]: https://github.com/trumpetrhapsody/addon-seerr/issues
+[license-shield]: https://img.shields.io/github/license/trumpetrhapsody/addon-seerr.svg
+[maintenance-shield]: https://img.shields.io/maintenance/yes/2026.svg
+[project-stage-shield]: https://img.shields.io/badge/project%20stage-experimental-yellow.svg
 [reddit]: https://reddit.com/r/homeassistant
-[releases]: https://github.com/hassio-addons/addon-overseerr/releases
-[semver]: http://semver.org/spec/v2.0.0.html
