@@ -17,7 +17,7 @@
 
 [Seerr] is a free, open-source request management and media discovery tool for Jellyfin, Plex, and Emby. The unified evolution of Overseerr and Jellyseerr.
 
-[Seerr]: https://overseerr.dev/
+[Seerr]: https://seerr.dev/
 
 [:books: Read the full add-on documentation][docs]
 
@@ -90,11 +90,11 @@ SOFTWARE.
 [discord-ha]: https://discord.gg/c5DvZ4e
 [discord-shield]: https://img.shields.io/discord/478094546522079232.svg
 [discord]: https://discord.me/hassioaddons
-[docs]: https://github.com/trumpetrhapsody/addon-seerr/blob/main/overseerr/DOCS.md
+[docs]: https://github.com/trumpetrhapsody/addon-seerr/blob/main/seerr/DOCS.md
 [forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg
 [i386-shield]: https://img.shields.io/badge/i386-no-red.svg
-[issue]: https://github.com/hassio-addons/addon-overseerr/issues
-[license-shield]: https://img.shields.io/github/license/hassio-addons/addon-overseerr.svg
+[issue]: https://github.com/trumpetrhapsody/addon-seerr/issues
+[license-shield]: https://img.shields.io/github/license/trumpetrhapsody/addon-seerr.svg
 [maintenance-shield]: https://img.shields.io/maintenance/yes/2026.svg
 [project-stage-shield]: https://img.shields.io/badge/project%20stage-experimental-yellow.svg
 [reddit]: https://reddit.com/r/homeassistant
