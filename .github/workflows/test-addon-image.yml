@@ -1,0 +1,159 @@
+name: Test Add-on Image
+
+on:
+  pull_request:
+    paths:
+      - "seerr/**"
+      - ".github/workflows/test-addon-image.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "seerr/**"
+      - ".github/workflows/test-addon-image.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: test-addon-image-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build amd64 image
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build add-on image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./seerr
+          file: ./seerr/Dockerfile
+          platforms: linux/amd64
+          push: false
+          load: true
+          tags: addon-seerr:test
+          build-args: |
+            BUILD_ARCH=amd64
+            BUILD_DATE=${{ github.event.repository.updated_at }}
+            BUILD_DESCRIPTION=Seerr Home Assistant app
+            BUILD_NAME=Seerr
+            BUILD_REF=${{ github.sha }}
+            BUILD_REPOSITORY=${{ github.repository }}
+            BUILD_VERSION=dev
+
+      - name: Inspect built image
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+
+          docker image inspect addon-seerr:test >/dev/null
+
+          docker run --rm \
+            --entrypoint /bin/bash \
+            addon-seerr:test \
+            -c '
+              set -Eeuo pipefail
+
+              test -f /opt/package.json
+              test -f /opt/pnpm-lock.yaml
+              test -f /opt/dist/index.js
+              test -d /opt/.next
+              test -d /opt/node_modules
+              test -x /etc/s6-overlay/s6-rc.d/seerr/run
+
+              command -v node
+              command -v pnpm
+
+              node --version
+              pnpm --version
+            '
+
+      - name: Start and test add-on container
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+
+          DATA_DIR="$(mktemp -d)"
+          CONTAINER_NAME="addon-seerr-smoke-test"
+
+          cleanup() {
+            docker logs "${CONTAINER_NAME}" 2>/dev/null || true
+            docker rm --force "${CONTAINER_NAME}" 2>/dev/null || true
+            rm -rf "${DATA_DIR}"
+          }
+
+          trap cleanup EXIT
+
+          cat > "${DATA_DIR}/options.json" <<'EOF'
+          {
+            "host": "0.0.0.0",
+            "prefer_ipv4": true
+          }
+          EOF
+
+          docker run \
+            --detach \
+            --name "${CONTAINER_NAME}" \
+            --publish 5055:5055 \
+            --volume "${DATA_DIR}:/data" \
+            addon-seerr:test
+
+          echo "Waiting for Seerr to become available..."
+
+          for attempt in $(seq 1 60); do
+            if ! docker inspect \
+              --format '{{.State.Running}}' \
+              "${CONTAINER_NAME}" \
+              | grep -qx true; then
+              echo "Container stopped before Seerr became ready." >&2
+              exit 1
+            fi
+
+            if curl \
+              --fail \
+              --silent \
+              --show-error \
+              --output /dev/null \
+              http://127.0.0.1:5055/; then
+              echo "Seerr responded successfully."
+              break
+            fi
+
+            if [[ "${attempt}" -eq 60 ]]; then
+              echo "Seerr did not become available within 120 seconds." >&2
+              exit 1
+            fi
+
+            sleep 2
+          done
+
+          sleep 5
+
+          docker inspect \
+            --format '{{.State.Running}}' \
+            "${CONTAINER_NAME}" \
+            | grep -qx true
+
+          if docker logs "${CONTAINER_NAME}" 2>&1 \
+            | grep -q 'EADDRINUSE'; then
+            echo "Detected duplicate Seerr process or port conflict." >&2
+            exit 1
+          fi
+
+          if docker logs "${CONTAINER_NAME}" 2>&1 \
+            | grep -q 'Server ready on port 5055'; then
+            echo "Verified Seerr startup message."
+          else
+            echo "Expected Seerr startup message was not found." >&2
+            exit 1
+          fi
