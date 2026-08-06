@@ -38,6 +38,16 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Validate Seerr version
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+      
+          if [[ ! "${SEERR_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::Invalid Seerr version: ${SEERR_VERSION}"
+            exit 1
+          fi
+      
       - name: Verify Node.js version
         shell: bash
         run: |
