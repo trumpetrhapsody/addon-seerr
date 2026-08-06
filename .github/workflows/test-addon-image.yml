@@ -22,13 +22,30 @@ concurrency:
 
 jobs:
   build:
-    name: Build amd64 image
+    name: Build ${{ matrix.arch }} image
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            platform: linux/amd64
+            load: true
+            smoke_test: true
+
+          - arch: aarch64
+            platform: linux/arm64
+            load: false
+            smoke_test: false
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v5
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -38,12 +55,12 @@ jobs:
         with:
           context: ./seerr
           file: ./seerr/Dockerfile
-          platforms: linux/amd64
+          platforms: ${{ matrix.platform }}
           push: false
-          load: true
-          tags: addon-seerr:test
+          load: ${{ matrix.load }}
+          tags: addon-seerr:${{ matrix.arch }}-test
           build-args: |
-            BUILD_ARCH=amd64
+            BUILD_ARCH=${{ matrix.arch }}
             BUILD_DATE=${{ github.event.repository.updated_at }}
             BUILD_DESCRIPTION=Seerr Home Assistant app
             BUILD_NAME=Seerr
@@ -52,15 +69,18 @@ jobs:
             BUILD_VERSION=dev
 
       - name: Inspect built image
+        if: matrix.smoke_test
         shell: bash
         run: |
           set -Eeuo pipefail
 
-          docker image inspect addon-seerr:test >/dev/null
+          docker image inspect \
+            "addon-seerr:${{ matrix.arch }}-test" \
+            >/dev/null
 
           docker run --rm \
             --entrypoint /bin/bash \
-            addon-seerr:test \
+            "addon-seerr:${{ matrix.arch }}-test" \
             -c '
               set -Eeuo pipefail
 
@@ -79,6 +99,7 @@ jobs:
             '
 
       - name: Start and test add-on container
+        if: matrix.smoke_test
         shell: bash
         run: |
           set -Eeuo pipefail
@@ -104,7 +125,7 @@ jobs:
             --env CONFIG_DIRECTORY=/config \
             --workdir /opt \
             --entrypoint /bin/bash \
-            addon-seerr:test \
+            "addon-seerr:${{ matrix.arch }}-test" \
             -c 'exec pnpm start'
 
           echo "Waiting for Seerr to become available..."
