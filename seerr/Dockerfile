@@ -15,9 +15,7 @@ WORKDIR /opt
 RUN \
     apk add --no-cache \
         nodejs \
-        npm \
-        curl \
-        tar \
+        npm
     && curl \
         --fail \
         --show-error \
@@ -35,8 +33,12 @@ RUN \
         --file /tmp/seerr-prebuilt.tar.gz \
         --directory /opt \
     && rm -f /tmp/seerr-prebuilt.tar.gz \
+    && test -f /opt/package.json \
+    && test -f /opt/pnpm-lock.yaml \
+    && test -f /opt/dist/index.js \
+    && test -d /opt/.next \
     && PACKAGE_MANAGER="$(node -e \
-    'process.stdout.write(require("/opt/package.json").packageManager || "")')" \
+        'process.stdout.write(require("/opt/package.json").packageManager || "")')" \
     && if [[ "${PACKAGE_MANAGER}" != pnpm@* ]]; then \
          echo "Invalid or missing packageManager in package.json: ${PACKAGE_MANAGER}" >&2; \
          exit 1; \
@@ -44,7 +46,7 @@ RUN \
     && npm install --global "${PACKAGE_MANAGER}" \
     && CI=true pnpm install --prod --frozen-lockfile \
     && pnpm store prune \
-    && rm -rf /root/.npm /root/.cache
+    && rm -rf /root/.npm /root/.cache /tmp/*
 
 COPY rootfs /
 
@@ -65,10 +67,10 @@ LABEL \
     maintainer="trumpetrhapsody" \
     org.opencontainers.image.title="${BUILD_NAME}" \
     org.opencontainers.image.description="${BUILD_DESCRIPTION}" \
-    org.opencontainers.image.vendor="Home Assistant Community Add-ons" \
+    org.opencontainers.image.vendor="trumpetrhapsody" \
     org.opencontainers.image.authors="trumpetrhapsody" \
     org.opencontainers.image.licenses="MIT" \
-    org.opencontainers.image.url="https://addons.community" \
+    org.opencontainers.image.url="https://github.com/trumpetrhapsody/addon-seerr" \
     org.opencontainers.image.source="https://github.com/${BUILD_REPOSITORY}" \
     org.opencontainers.image.documentation="https://github.com/${BUILD_REPOSITORY}/blob/main/README.md" \
     org.opencontainers.image.created="${BUILD_DATE}" \
