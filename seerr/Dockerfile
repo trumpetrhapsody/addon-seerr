@@ -14,7 +14,6 @@ WORKDIR /opt
 
 RUN \
     apk add --no-cache \
-        nodejs \
         npm \
         curl \
         tar \
