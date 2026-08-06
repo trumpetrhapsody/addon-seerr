@@ -13,8 +13,6 @@
 ![Project Maintenance][maintenance-shield]
 [![GitHub Activity][commits-shield]][commits]
 
-Request management and media discovery tool for the Plex ecosystem.
-
 ## About
 
 [Seerr] is a free, open-source request management and media discovery tool for Jellyfin, Plex, and Emby. The unified evolution of Overseerr and Jellyseerr.
@@ -22,18 +20,6 @@ Request management and media discovery tool for the Plex ecosystem.
 [Seerr]: https://overseerr.dev/
 
 [:books: Read the full add-on documentation][docs]
-
-## Installation
-
-1. Add this repository to your Home Assistant Add-on Store:
-   - Go to **Settings → Add-ons → Add-on Store**
-   - Click **⋮** (three dots menu) → **Repositories**
-   - Add this URL: `https://github.com/trumpetrhapsody/addon-seerr`
-   - Click **Add** → **Close**
-
-2. Find "Seerr" in the add-on store and install it
-
-3. In the **Configuration** tab, ensure `prefer_ipv4: true` is set
 
 ## Support
 
