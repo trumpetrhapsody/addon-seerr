@@ -35,12 +35,9 @@ Request management and media discovery tool for the Plex ecosystem.
 
 ## About
 
-[Seerr] is a multi-platform binary newsgroup downloader. The program works in
-the background and simplifies the downloading verifying and extracting of files
-from [Usenet].
+[Seerr] is a free, open-source request management and media discovery tool for Jellyfin, Plex, and Emby. The unified evolution of Overseerr and Jellyseerr.
 
 [Seerr]: https://overseerr.dev/
-[Usenet]: http://en.wikipedia.org/wiki/Usenet
 
 [:books: Read the full add-on documentation][docs]
 
