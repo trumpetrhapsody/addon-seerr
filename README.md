@@ -33,7 +33,6 @@ This is a complete overhaul of the official Overseerr add-on to support Componen
 [![GitHub Activity][commits-shield]][commits]
 
 [![Discord][discord-shield]][discord]
-[![Community Forum][forum-shield]][forum]
 
 Request management and media discovery tool for the Plex ecosystem.
 
@@ -58,7 +57,6 @@ You have several options to get them answered:
   support and feature requests.
 - The [Home Assistant Discord chat server][discord-ha] for general Home
   Assistant discussions and questions.
-- The Home Assistant [Community Forum][forum].
 - Join the [Reddit subreddit][reddit] in [/r/homeassistant][reddit]
 
 You could also [open an issue here][issue] GitHub.
@@ -78,7 +76,7 @@ Thank you for being involved! :heart_eyes:
 The original setup of this repository is by [trumpetrhapsody].
 
 For a full list of all authors and contributors,
-check [the contributor's page].
+check [the contributor's page][contributors].
 
 ## License
 
@@ -109,17 +107,17 @@ SOFTWARE.
 [armhf-shield]: https://img.shields.io/badge/armhf-no-red.svg
 [armv7-shield]: https://img.shields.io/badge/armv7-yes-green.svg
 [commits-shield]: https://img.shields.io/github/commit-activity/y/hassio-addons/addon-overseerr.svg
-[commits]: https://github.com/hassio-addons/addon-overseerr/commits/main
-[contributors]: https://github.com/hassio-addons/addon-overseerr/graphs/contributors
+[commits]: https://github.com/trumpetrhapsody/addon-seerr/commits/main
+[trumpetrhapsody]: https://github.com/trumpetrhapsody
+[contributors]: https://github.com/trumpetrhapsody/addon-seerr/graphs/contributors
+[seerr]: https://seerr.dev/
 [discord-ha]: https://discord.gg/c5DvZ4e
 [discord-shield]: https://img.shields.io/discord/478094546522079232.svg
 [discord]: https://discord.me/hassioaddons
-[docs]: https://github.com/hassio-addons/addon-overseerr/blob/main/overseerr/DOCS.md
+[docs]: https://github.com/trumpetrhapsody/addon-seerr/blob/main/overseerr/DOCS.md
 [forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg
 [github-actions-shield]: https://github.com/hassio-addons/addon-overseerr/workflows/CI/badge.svg
-[github-actions]: https://github.com/hassio-addons/addon-overseerr/actions
-[trumpetrhapsody]: https://github.com/trumpetrhapsody
-[the contributor's page]: https://github.com/trumpetrhapsody/addon-seerr/graphs/contributors
+[github-actions]: https://github.com/trumpetrhapsody/addon-seerr/actions
 [i386-shield]: https://img.shields.io/badge/i386-no-red.svg
 [issue]: https://github.com/hassio-addons/addon-overseerr/issues
 [license-shield]: https://img.shields.io/github/license/hassio-addons/addon-overseerr.svg
@@ -128,4 +126,3 @@ SOFTWARE.
 [reddit]: https://reddit.com/r/homeassistant
 [releases-shield]: https://img.shields.io/github/release/hassio-addons/addon-overseerr.svg
 [releases]: https://github.com/trumpetrhapsody/addon-seerr/releases
-[seerr]: https://seerr.dev/
