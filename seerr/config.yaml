@@ -1,6 +1,6 @@
 ---
 name: Seerr
-version: dev
+version: 1.0.0
 slug: seerr
 description: Request management and media discovery tool for the Plex and Jellyfin ecosystems
 url: https://github.com/trumpetrhapsody/addon-seerr
