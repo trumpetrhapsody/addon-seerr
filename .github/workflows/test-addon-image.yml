@@ -82,16 +82,17 @@ jobs:
         shell: bash
         run: |
           set -Eeuo pipefail
-
+      
           DATA_DIR="$(mktemp -d)"
+          CONFIG_DIR="$(mktemp -d)"
           CONTAINER_NAME="addon-seerr-smoke-test"
-
+      
           cleanup() {
             docker logs "${CONTAINER_NAME}" 2>/dev/null || true
             docker rm --force "${CONTAINER_NAME}" 2>/dev/null || true
-            rm -rf "${DATA_DIR}"
+            rm -rf "${DATA_DIR}" "${CONFIG_DIR}"
           }
-
+      
           trap cleanup EXIT
 
           cat > "${DATA_DIR}/options.json" <<'EOF'
