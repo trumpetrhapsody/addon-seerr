@@ -4,6 +4,7 @@
 # Home Assistant Community Add-on: Seerr
 # Runs Seerr
 # ==============================================================================
+set -Eeuo pipefail
 export NODE_ENV=production
 export PORT=5055
 export CONFIG_DIRECTORY="/config"
